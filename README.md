@@ -30,3 +30,8 @@ The DB will be downloaded to the cc.dict.dictcc folder on your phone.
 Only copy the file to the same folder, where the script is located and rename the DB to "dict.db"
 
 There is also a way to diretly download the db, but this could be not allowed by dict.cc
+
+## DB Speedup
+The "dict.cc.db_speedup.py script" splits one table into two which makes the auto suggestion much more faster. I measured a speed up with factor 3. 700ms to 250ms
+
+Like the main script, place the DB in the same folder and rename it to "dict.db". Then start the script and follow the instructions. 
