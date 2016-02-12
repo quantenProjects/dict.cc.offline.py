@@ -46,6 +46,12 @@ print "enter e for englisch search, enter d for german search"
 print "use tab (double tap) for autocompletion"
 print "use CTRL + c for exiting"
 
+c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='singlewords1'")
+if len(c.fetchall()) == 1:
+    fastdb = True
+    print "Fast db structure detected"
+
+
 def colors(n):
     if n%4==1:
         return '\033[48;5;52m'
@@ -65,9 +71,15 @@ def completer(text, state):
 def suggest(term):
     term = (str(term + "%"),)
     if lang == "e":
-        c.execute('SELECT term4search FROM singlewords WHERE term4search like ?  and colnum = 2 limit 10',term)
+        if fastdb:
+            c.execute('SELECT term4search FROM singlewords2 WHERE term4search like ? limit 10',term)
+        else:
+            c.execute('SELECT term4search FROM singlewords WHERE term4search like ?  and colnum = 2 limit 10',term)
     else:
-        c.execute('SELECT term4search FROM singlewords WHERE term4search like ? and colnum = 1  limit 10',term)
+        if fastdb:
+            c.execute('SELECT term4search FROM singlewords1 WHERE term4search like ? limit 10',term)
+        else:
+            c.execute('SELECT term4search FROM singlewords WHERE term4search like ? and colnum = 1  limit 10',term)
     res = c.fetchall()
     j = 0
     result = []
