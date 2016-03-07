@@ -2,7 +2,8 @@
 cmd line dict for the android SQLite db from dict.cc
 
 ## Usage
-No commandoline arguments, simply start in the same folder, where the dict.db is located.
+simply start in the same folder, where the dict.db is located.
+Use "d" or "e" as commandlinearguments for preselecting the language
 
 d> means german (deutsch) search
 e> means english search
