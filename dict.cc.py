@@ -65,9 +65,9 @@ if len(c.fetchall()) == 1:
 #returning the bash color codes, first line black, then red, black, grey
 def colors(n):
     if n%4==1:
-        return '\033[48;5;52m' #red
+        return '\033[48;5;196m' #red
     elif n%4==3:
-        return '\033[48;5;236m' #grey
+        return '\033[48;5;245m' #grey
     else:
         return ''
 
