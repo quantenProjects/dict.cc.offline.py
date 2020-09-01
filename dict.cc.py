@@ -47,20 +47,20 @@ else:
     lang = "d"
    
 
-conn = sqlite3.connect('dict.db') #connect to db
+conn = sqlite3.connect('dict.cc.db') #connect to db
 c = conn.cursor()
 
 #start info
-print "python cmd line interface for dict cc sqlite db deutsch englisch"
-print "enter e for englisch search, enter d for german search"
-print "use tab (double tap) for autocompletion"
-print "use CTRL + c for exiting"
+print ("python cmd line interface for dict cc sqlite db deutsch englisch")
+print ("enter e for englisch search, enter d for german search")
+print ("use tab (double tap) for autocompletion")
+print ("use CTRL + c for exiting")
 
 #checking if db is fastdb structure
 c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='singlewords1'")
 if len(c.fetchall()) == 1:
     fastdb = True
-    print "Fast db structure detected"
+    print ("Fast db structure detected")
 
 #returning the bash color codes, first line black, then red, black, grey
 def colors(n):
@@ -111,7 +111,7 @@ def searchindb(text): #real searching
     reseng = ""
     j = 0
     for i in res:
-        print colors(j), i[1].ljust(terminalwidthhalf),i[2].ljust(terminalwidthhalf-8),'\033[49m' #formating output
+        print (colors(j), i[1].ljust(terminalwidthhalf),i[2].ljust(terminalwidthhalf-8),'\033[49m') #formating output
         #print '' ##uncomment for result every second line
         j+=1
        #resdeu += i[1] +"\n"
@@ -124,7 +124,7 @@ readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
 
 while True:
-    inp = raw_input(lang + "> ") #searchterm input
+    inp = input(lang + "> ") #searchterm input
     
     #checking for language change
     if inp == "e":
