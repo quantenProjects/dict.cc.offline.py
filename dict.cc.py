@@ -42,11 +42,16 @@ terminalwidthhalf = int(getTerminalSize() / 2)
 # choosing language from comand line argument
 if len(sys.argv) >= 2:
     if sys.argv[1] == "d":
-        lang = "d"
+        lang = 1
     elif sys.argv[1] == "e":
-        lang = "e"
+        lang = 2
 else:
-    lang = "d"
+    lang = 1
+
+
+def lang_to_char():
+    return "de"[lang - 1]
+
 
 conn = sqlite3.connect('dict.cc.db')  # connect to db
 c = conn.cursor()
@@ -56,12 +61,6 @@ print("python cmd line interface for dict cc sqlite db deutsch englisch")
 print("enter e for englisch search, enter d for german search")
 print("use tab (double tap) for autocompletion")
 print("use CTRL + c for exiting")
-
-# checking if db is fastdb structure
-c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='singlewords1'")
-if len(c.fetchall()) == 1:
-    fastdb = True
-    print("Fast db structure detected")
 
 
 # returning the bash color codes, first line black, then red, black, grey
@@ -84,62 +83,48 @@ def completer(text, state):  # completer for autocompletion
 
 
 def suggest(term):  # function for suggestes
-    term = (str(term + "%"),)  # create tupel for sqlite3
-    if lang == "e":
-        if fastdb:
-            c.execute('SELECT term4search FROM singlewords2 WHERE term4search like ? limit 10', term)
-        else:
-            c.execute('SELECT term4search FROM singlewords WHERE term4search like ?  and colnum = 2 limit 10', term)
+    first_char = term.lower()[0]
+    if 'a' <= first_char <= 'z':
+        first_char = "_" + first_char
     else:
-        if fastdb:
-            c.execute('SELECT term4search FROM singlewords1 WHERE term4search like ? limit 10', term)
-        else:
-            c.execute('SELECT term4search FROM singlewords WHERE term4search like ? and colnum = 1  limit 10', term)
-    res = c.fetchall()
-    j = 0
+        first_char = ""
+    term = (str(term + "%"), lang)  # create tupel for sqlite3
+    c.execute(f"SELECT term4search FROM singlewords{first_char} WHERE term4search like ?  and colnum = ? limit 10", term)
     result = []
-    for i in res:
+    for i in c.fetchall():
         result.append(i[0])
-        # j += 1
     return result
 
 
 def searchindb(text):  # real searching
     searchterm = (str(text + "%"),)
     # print searchterm
-    if lang == "e":
-        c.execute('SELECT * FROM main_ft WHERE term2 like ? order by vt_usage DESC , sort2 , sort1 limit 60 ',
-                  searchterm)
-    else:
-        c.execute('SELECT * FROM main_ft WHERE term1 like ? order by vt_usage DESC , sort1 , sort2 limit 60 ',
+    c.execute(f"SELECT * FROM main_ft WHERE term{lang} like ? order by vt_usage DESC , sort2 , sort1 limit 60 ",
                   searchterm)
     res = c.fetchall()
-    resdeu = ""
-    reseng = ""
     j = 0
     for i in res:
         print(colors(j), i[1].ljust(terminalwidthhalf), i[2].ljust(terminalwidthhalf - 8),
               '\033[49m')  # formating output
         # print '' ##uncomment for result every second line
         j += 1
-    # resdeu += i[1] +"\n"
 
 
-# c.execute('SELECT * FROM main_ft WHERE term1 like ? order by vt_usage DESC , sort1 , sort2',searchterm)
 
 # setting up the autocompleter
+readline.set_completer_delims("")
 readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
 
 while True:
-    inp = input(lang + "> ")  # searchterm input
+    inp = input(lang_to_char() + "> ")  # searchterm input
 
     # checking for language change
     if inp == "e":
-        lang = "e"
+        lang = 2
         continue
     elif inp == "d":
-        lang = "d"
+        lang = 1
         continue
 
     searchindb(inp)  # searching

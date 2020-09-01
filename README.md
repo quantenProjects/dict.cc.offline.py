@@ -1,9 +1,16 @@
 # dict.cc.offilne.py
-cmd line dict for the android SQLite db from dict.cc
+
+cmd line dict for the android SQLite db from dict.cc written in python3
 
 ## Usage
-simply start in the same folder, where the dict.db is located.
-Use "d" or "e" as commandlinearguments for preselecting the language
+
+simply start in the same folder, where the dict.cc.db is located.
+
+```shell script
+python3 dict.cc.py
+```
+
+Use "d" or "e" as command line arguments to preselect a language
 
 d> means german (deutsch) search
 e> means english search
@@ -14,31 +21,24 @@ Use tab (also double tap) to get auto completion like in the shell. But be patie
 
 Use CTRL + C to exit the script.
 
-Use % (percantage sign) as wildcard. For example to search for english verbs: % walk -> to walk. The script adds automatically a % to the end of your searchterm.
+Use % (percentage sign) as wildcard. For example to search for english verbs: % walk -> to walk. The script adds automatically a % to the end of your searchterm.
 
-While % represents zero to infinty characters, _ (underscore) represents only one character. You can also use any other SQL wildcard.
+While % represents zero to infinity characters, _ (underscore) represents only one character. You can also use any other SQL wildcard.
 
 Tipp for the Wildcard:
 
 Use % eat (note the space between % and walk) to get "to eat" and not %eat which also results in "meat", "repeat" and "to beat".
 
 ## How to get the DB
-This script uses the SQLite DB from the [dict.cc Android App][app].
-  [app]: https://play.google.com/store/apps/details?id=cc.dict.dictcc
+
+This script uses the SQLite DB from the [dict.cc Android App](https://play.google.com/store/apps/details?id=cc.dict.dictcc)
 
 The simplest way to get this DB, is to download the app, then download the dictionary in the app.
 The DB will be downloaded to the cc.dict.dictcc folder on your phone.
 Only copy the file to the same folder, where the script is located and rename the DB to "dict.db"
 
-There is also a way to diretly download the db, but this could be not allowed by dict.cc
-
-## DB Speedup
-The "dict.cc.db_speedup.py script" splits one table into two which makes the auto suggestion much more faster. I measured a speed up with factor 3. 700ms to 250ms
-
-Like the main script, place the DB in the same folder and rename it to "dict.db". Then start the script and follow the instructions. 
-
-## DB comments on python3 (Musrar)
-To make it run on python3, I have changed a little bit the syntax of the files. On Unix terminals it should work with $ python3 dict.cc.py
+There is also a way to directly download the db, but this could be not allowed by dict.cc
 
 ## DB with other languages (Musrar)
+
 It works perfectly fine if you change the .db to the one you want. Just be aware that the e> command is for the non-german language of your choice.
