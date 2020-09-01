@@ -38,7 +38,7 @@ The "dict.cc.db_speedup.py script" splits one table into two which makes the aut
 Like the main script, place the DB in the same folder and rename it to "dict.db". Then start the script and follow the instructions. 
 
 ## DB comments on python3 (Musrar)
-To make it run on python3, I have ve changed a little bit the syntax of the files. On Unix terminals it should work with $ python3 dict.cc.py
+To make it run on python3, I have changed a little bit the syntax of the files. On Unix terminals it should work with $ python3 dict.cc.py
 
 ## DB with other languages (Musrar)
 It works perfectly fine if you change the .db to the one you want. Just be aware that the e> command is for the non-german language of your choice.
